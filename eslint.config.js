@@ -14,10 +14,6 @@ export default defineConfig([
         version: 'detect',
       },
     },
-    plugings: {
-      react,
-      // react-hooks: reactHooks,
-    },
     extends: [
       js.configs.recommended,
       reactHooks.configs['recommended-latest'],
