@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import TodoListItem from './TodoListItem.jsx';
 
 function TodoList({ todoList, onCompleteTodo }) {
