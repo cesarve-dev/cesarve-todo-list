@@ -15,16 +15,16 @@ const TodoForm = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={handleAddTodo}>
-      <label htmlFor="todoTile">Todo</label>
+      <label htmlFor="todoTitle">Todo</label>
       <input
         id="todoTitle"
         type="text"
         name="title"
         ref={todoTitleInput}
         value={workingTodoTitle}
-        onChange={(event) => setWorkingTodoTitle(event)}
+        onChange={(event) => setWorkingTodoTitle(event.target.value)}
       />
-      <button>Add Todo</button>
+      <button disabled={workingTodoTitle === ''}>Add Todo</button>
     </form>
   );
 };
