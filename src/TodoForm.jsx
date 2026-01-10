@@ -1,21 +1,29 @@
 /* eslint-disable react/prop-types */
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const TodoForm = ({ onAddTodo }) => {
   const todoTitleInput = useRef(null);
+  const [workingTodoTitle, setWorkingTodoTitle] = useState('');
 
   function handleAddTodo(event) {
     event.preventDefault();
-    const title = event.target.title.value;
-    onAddTodo(title);
-    event.target.title.value = '';
+    // const title = ;
+    onAddTodo(workingTodoTitle);
+    setWorkingTodoTitle('');
     todoTitleInput.current.focus();
   }
 
   return (
     <form onSubmit={handleAddTodo}>
       <label htmlFor="todoTile">Todo</label>
-      <input id="todoTitle" type="text" name="title" ref={todoTitleInput} />
+      <input
+        id="todoTitle"
+        type="text"
+        name="title"
+        ref={todoTitleInput}
+        value={workingTodoTitle}
+        onChange={(event) => setWorkingTodoTitle(event)}
+      />
       <button>Add Todo</button>
     </form>
   );
