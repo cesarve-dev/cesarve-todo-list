@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from 'react';
+import TextInputWithLabel from '../shared/TextInputWithLabel';
 
 const TodoForm = ({ onAddTodo }) => {
   const todoTitleInput = useRef(null);
@@ -15,14 +16,12 @@ const TodoForm = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={handleAddTodo}>
-      <label htmlFor="todoTitle">Todo</label>
-      <input
-        id="todoTitle"
-        type="text"
-        name="title"
+      <TextInputWithLabel
         ref={todoTitleInput}
         value={workingTodoTitle}
         onChange={(event) => setWorkingTodoTitle(event.target.value)}
+        elementId="todoTitle"
+        labelText="Todo"
       />
       <button disabled={workingTodoTitle === ''}>Add Todo</button>
     </form>
