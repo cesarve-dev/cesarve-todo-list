@@ -46,17 +46,6 @@ function App() {
     fetchTodos();
   }, []);
 
-  // function completeTodo(id) {
-  //   const updatedTodos = todoList.map((todo) => {
-  //     if (todo.id === id) {
-  //       return { ...todo, isCompleted: true };
-  //     }
-  //     return todo;
-  //   });
-
-  //   setTodoList(updatedTodos);
-  // }
-  //set isCompleted key to value TRUE
   const completeTodo = async (id) => {
     const originalTodo = todoList.find((todo) => todo.id === id);
     const completeTodo = todoList.find((todo) => todo.id === id);
