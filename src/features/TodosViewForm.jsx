@@ -1,15 +1,30 @@
+/* eslint-disable react/prop-types */
+
 function TodosViewForm({
   sortDirection,
   sortField,
   setSortDirection,
   setSortField,
+  queryString,
+  setQueryString,
 }) {
   const preventRefresh = (e) => {
-    e.preventDedault();
+    e.preventDefault();
   };
   return (
     <div>
       <form onSubmit={preventRefresh}>
+        <div>
+          <label htmlFor="">Search todos:</label>
+          <input
+            type="text"
+            value={queryString}
+            onChange={(e) => setQueryString(e.target.value)}
+          />
+          <button type="button" onClick={() => setQueryString('')}>
+            Clear
+          </button>
+        </div>
         <label htmlFor="sortBy">Sort by:</label>
         <select
           name="Sort by"

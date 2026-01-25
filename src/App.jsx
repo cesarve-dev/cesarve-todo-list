@@ -5,20 +5,24 @@ import TodoForm from './features/TodoForm.jsx';
 import TodosViewForm from './features/TodosViewForm.jsx';
 
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
-const encodeUrl = ({ sortField, sortDirection }) => {
+const encodeUrl = ({ sortField, sortDirection, queryString }) => {
+  let searchQuery = '';
   let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-  return encodeURI(`${url}?${sortQuery}`);
+  if (queryString) {
+    searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
+  }
+  return encodeURI(`${url}?${sortQuery}${searchQuery}`);
 };
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
   const [isSaving, setIsSaving] = useState(false);
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
+  const [queryString, setQueryString] = useState('');
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -30,7 +34,7 @@ function App() {
 
       try {
         const resp = await fetch(
-          encodeUrl({ sortField, sortDirection }),
+          encodeUrl({ sortField, sortDirection, queryString }),
           options
         );
         if (!resp.ok) {
@@ -56,7 +60,7 @@ function App() {
       }
     };
     fetchTodos();
-  }, [sortDirection, sortField]);
+  }, [sortDirection, sortField, queryString]);
 
   //set isCompleted key to value TRUE
   const completeTodo = async (id) => {
@@ -84,7 +88,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection }),
+        encodeUrl({ sortField, sortDirection, queryString }),
         options
       );
       if (!resp.ok) {
@@ -129,7 +133,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection }),
+        encodeUrl({ sortField, sortDirection, queryString }),
         options
       );
       if (!resp.ok) {
@@ -179,7 +183,7 @@ function App() {
     };
     try {
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection }),
+        encodeUrl({ sortField, sortDirection, queryString }),
         options
       );
       if (!resp.ok) {
@@ -228,6 +232,8 @@ function App() {
         sortField={sortField}
         setSortDirection={setSortDirection}
         setSortField={setSortField}
+        queryString={queryString}
+        setQueryString={setQueryString}
       />
     </div>
   );
