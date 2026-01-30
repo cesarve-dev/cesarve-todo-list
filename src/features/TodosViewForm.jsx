@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
 
 function TodosViewForm({
   sortDirection,
@@ -8,9 +9,18 @@ function TodosViewForm({
   queryString,
   setQueryString,
 }) {
+  const [localQueryString, setLocalQueryString] = useState(queryString);
   const preventRefresh = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    const debaunce = setTimeout(() => {
+      setQueryString(localQueryString);
+    }, 500);
+
+    return () => clearTimeout(debaunce);
+  }, [localQueryString, setLocalQueryString]);
   return (
     <div>
       <form onSubmit={preventRefresh}>
@@ -18,10 +28,10 @@ function TodosViewForm({
           <label htmlFor="">Search todos:</label>
           <input
             type="text"
-            value={queryString}
-            onChange={(e) => setQueryString(e.target.value)}
+            value={localQueryString}
+            onChange={(e) => setLocalQueryString(e.target.value)}
           />
-          <button type="button" onClick={() => setQueryString('')}>
+          <button type="button" onClick={() => setLocalQueryString('')}>
             Clear
           </button>
         </div>
