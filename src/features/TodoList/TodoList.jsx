@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import TodoListItem from './TodoListItem.jsx';
+import styles from './TodoList.module.css';
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
   const filteredTodoList = todoList.filter(
@@ -10,7 +11,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
       {isLoading ? (
         <p>Todo list loading...</p>
       ) : (
-        <ul>
+        <ul className={styles.list}>
           {filteredTodoList.length === 0 ? (
             <p>Add todo above to get started</p>
           ) : (

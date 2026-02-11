@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
+import styled from 'styled-components';
 
-function TextInputWithLabel({ elementId, label, onChange, ref, value }) {
+function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
   return (
     <>
-      <label htmlFor={elementId}>{label}</label>
-      <input
+      <StyledTextLabel htmlFor={elementId}>{labelText}:</StyledTextLabel>
+      <StyledTextInput
         type="text"
         id={elementId}
         ref={ref}
@@ -14,5 +15,14 @@ function TextInputWithLabel({ elementId, label, onChange, ref, value }) {
     </>
   );
 }
+
+const StyledTextLabel = styled.label`
+  font-weight: bold;
+`;
+
+const StyledTextInput = styled.input`
+  border-radius: 5px;
+  color: #e0e1dd;
+`;
 
 export default TextInputWithLabel;

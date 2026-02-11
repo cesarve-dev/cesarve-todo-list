@@ -1,8 +1,11 @@
 #root {
-  width: 50%;
-  margin: auto;
-  height: auto;
-  background-color: #0d1b2a;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 27, 42, 1) 0%,
+    rgba(22, 52, 84, 1) 100%
+  );
   border-radius: 16px;
   padding: 24px;
   font-family: 'Roboto', sans-serif;
@@ -17,16 +20,16 @@ h1 {
 
 /* text input */
 input[type='text'] {
-  width: 80%;
   padding: 12px;
   border: none;
-  font-size: 16px;
+  outline: none;
   background-color: #778da9;
 }
 
 /* button */
 button {
-  padding: 12px 16px;
+  padding: 13px 16px;
   background-color: #243450;
   color: #778da9;
+  border: none;
 }

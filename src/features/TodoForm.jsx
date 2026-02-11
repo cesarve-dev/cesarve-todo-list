@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from 'react';
 import TextInputWithLabel from '../shared/TextInputWithLabel';
+import styled from 'styled-components';
 
 const TodoForm = ({ onAddTodo, isSaving }) => {
   const todoTitleInput = useRef(null);
@@ -14,7 +15,7 @@ const TodoForm = ({ onAddTodo, isSaving }) => {
   }
 
   return (
-    <form onSubmit={handleAddTodo}>
+    <StyledForm onSubmit={handleAddTodo}>
       <TextInputWithLabel
         ref={todoTitleInput}
         value={workingTodoTitle}
@@ -25,8 +26,25 @@ const TodoForm = ({ onAddTodo, isSaving }) => {
       <button disabled={workingTodoTitle.trim() === ''}>
         {isSaving ? 'Saving...' : 'Add Todo'}
       </button>
-    </form>
+    </StyledForm>
   );
 };
 
+const StyledForm = styled.form`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  input {
+    width: 75%;
+  }
+  button {
+    color: #e0e1dd;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  button:disabled {
+    font-style: italic;
+    font-weight: 300;
+  }
+`;
 export default TodoForm;
