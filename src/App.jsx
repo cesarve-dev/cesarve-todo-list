@@ -25,6 +25,7 @@ function App() {
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
+  // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const encodeUrl = useCallback(() => {
     let searchQuery = '';
     let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
@@ -45,8 +46,9 @@ function App() {
       try {
         const resp = await fetch(encodeUrl(), options);
         if (!resp.ok) {
-          throw new Error(resp.message);
+          throw new Error(`Request failed: ${resp.status}`);
         }
+
         const data = await resp.json();
         const records = data.records.map((record) => {
           const todo = {
