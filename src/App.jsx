@@ -14,7 +14,7 @@ const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${impor
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
 function App() {
-  const [todoList, setTodoList] = useState([]);
+  // const [todoList, setTodoList] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   // const [errorMessage, setErrorMessage] = useState('');
   // const [isSaving, setIsSaving] = useState(false);
@@ -23,14 +23,6 @@ function App() {
   const [queryString, setQueryString] = useState('');
   // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
-
-  // Sync reducer state to local state
-  useEffect(() => {
-    if (todoState?.todoList && Array.isArray(todoState.todoList)) {
-      // setTodoList(todoState.todoList);
-      todoState.todoList;
-    }
-  }, [todoState.todoList]);
 
   const encodeUrl = useCallback(() => {
     let searchQuery = '';
