@@ -7,20 +7,11 @@ import styles from './App.module.css';
 
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
-// const encodeUrl = ({ sortField, sortDirection, queryString }) => {
-//   let searchQuery = '';
-//   let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-//   if (queryString) {
-//     searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
-//   }
-//   return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-// };
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
   const [isSaving, setIsSaving] = useState(false);
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
