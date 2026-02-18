@@ -17,51 +17,6 @@ const actions = {
   clearError: 'clearError',
 };
 
-function reducer(state = initialState, action) {
-  switch (action.type) {
-    case actions.fetchTodos:
-      return {
-        ...state,
-      };
-    case actions.loadTodos:
-      return {
-        ...state,
-      };
-    case actions.setLoadError:
-      return {
-        ...state,
-      };
-    case actions.startRequest:
-      return {
-        ...state,
-      };
-    case actions.addTodo:
-      return {
-        ...state,
-      };
-    case actions.endRequest:
-      return {
-        ...state,
-      };
-    case actions.updateTodo:
-      return {
-        ...state,
-      };
-    case actions.completeTodo:
-      return {
-        ...state,
-      };
-    case actions.revertTodo:
-      return {
-        ...state,
-      };
-    case actions.clearError:
-      return {
-        ...state,
-      };
-  }
-}
-
 const initialState = {
   todoList: [],
   isLoading: false,
@@ -69,4 +24,99 @@ const initialState = {
   errorMessage: '',
 };
 
-export { initialState, actions };
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case actions.fetchTodos:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actions.loadTodos: {
+      const records = action.records.map((record) => {
+        const todo = {
+          title: record.fields.title,
+          id: record.id,
+          isCompleted: record.fields.isCompleted,
+        };
+        if (!todo.isCompleted) {
+          todo.isCompleted = false;
+        }
+        return todo;
+      });
+      return {
+        ...state,
+        todoList: records,
+        isLoading: false,
+      };
+    }
+    case actions.setLoadError:
+      return {
+        ...state,
+        errorMessage: action.error.message,
+        isLoading: false,
+      };
+    case actions.startRequest:
+      return {
+        ...state,
+        isSaving: true,
+      };
+    case actions.addTodo: {
+      const savedTodo = {
+        id: action.records[0].id,
+        title: action.records[0].fields.title,
+        isCompleted: action.records[0].fields.isCompleted,
+      };
+      if (!action.records[0].fields.isCompleted) {
+        savedTodo.isCompleted = false;
+      }
+      return {
+        ...state,
+        todoList: [...state.todoList, savedTodo],
+        isSaving: false,
+      };
+    }
+    case actions.endRequest:
+      return {
+        ...state,
+        isLoading: false,
+        isSaving: false,
+      };
+    case actions.revertTodo: {
+      const revertedTodos = state.todoList.map((todo) =>
+        todo.id === action.editedTodo.id ? action.originalTodo : todo
+      );
+      const updatedState = { ...state, todoList: revertedTodos };
+      if (action.error) {
+        updatedState.errorMessage = action.errorMessage;
+      }
+      return updatedState;
+    }
+    case actions.updateTodo: {
+      const editedTodos = state.todoList.map((todo) =>
+        todo.id === action.editedTodo.id ? action.editedTodo : todo
+      );
+      const updatedState = { ...state, todoList: editedTodos };
+      if (action.error) {
+        updatedState.errorMessage = action.errorMessage;
+      }
+      return updatedState;
+    }
+    case actions.completeTodo: {
+      const completedTodo = state.todoList.map((todo) =>
+        todo.id === action.id ? { ...todo, isCompleted: true } : todo
+      );
+      return {
+        ...state,
+        todoList: [...completedTodo],
+      };
+    }
+
+    case actions.clearError:
+      return {
+        ...state,
+        errorMessage: '',
+      };
+  }
+}
+
+export { initialState, actions, reducer };
