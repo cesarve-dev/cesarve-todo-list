@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useReducer } from 'react';
+import { useEffect, useCallback, useReducer } from 'react';
 import './App.css';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
@@ -20,17 +20,23 @@ function App() {
   // const [isSaving, setIsSaving] = useState(false);
   // const [sortField, setSortField] = useState('createdTime');
   // const [sortDirection, setSortDirection] = useState('desc');
-  const [queryString, setQueryString] = useState('');
+  // const [queryString, setQueryString] = useState('');
   // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
   const sortDirection = todoState.sortDirection;
   const sortField = todoState.sortField;
+  const queryString = todoState.queryString;
+
   const setSortDirection = function (direction) {
     dispatch({ type: todoActions.setSortDirection, direction });
   };
 
   const setSortField = function (sortField) {
     dispatch({ type: todoActions.setSortField, sortField });
+  };
+
+  const setQueryString = (queryString) => {
+    dispatch({ type: todoActions.setQueryString, queryString });
   };
 
   const encodeUrl = useCallback(() => {

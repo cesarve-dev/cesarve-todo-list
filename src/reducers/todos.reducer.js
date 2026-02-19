@@ -17,6 +17,7 @@ const actions = {
   clearError: 'clearError',
   setSortDirection: 'setSortDirection',
   setSortField: 'setSortField',
+  setQueryString: 'setQueryString',
 };
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   errorMessage: '',
   sortDirection: 'desc',
   sortField: 'createdTime',
+  queryString: '',
 };
 
 function reducer(state = initialState, action) {
@@ -128,6 +130,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         sortField: action.sortField,
+      };
+    case actions.setQueryString:
+      return {
+        ...state,
+        queryString: action.queryString,
       };
   }
 }
