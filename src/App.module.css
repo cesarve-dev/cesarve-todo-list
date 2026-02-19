@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+/* make sure to change width for differnt viewports */
+.errorMessage {
+  border: 1px red solid;
+  color: red;
+  font-weight: bold;
+}

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 function TodosViewForm({
   sortDirection,
@@ -22,9 +23,9 @@ function TodosViewForm({
     return () => clearTimeout(debaunce);
   }, [localQueryString, setLocalQueryString]);
   return (
-    <div>
+    <StyledTodosView>
       <form onSubmit={preventRefresh}>
-        <div>
+        <div className="search-container">
           <label htmlFor="">Search todos:</label>
           <input
             type="text"
@@ -56,8 +57,54 @@ function TodosViewForm({
           <option value="desc">Descending</option>
         </select>
       </form>
-    </div>
+    </StyledTodosView>
   );
 }
+
+const StyledTodosView = styled.div`
+  display: flex;
+  justify-content: center;
+  form {
+    width: 75%;
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0 8px;
+    margin-bottom: 8px;
+  }
+
+  .search-container label {
+    margin: 0;
+  }
+
+  .search-container input {
+    flex-grow: 2;
+    border-radius: 5px;
+  }
+
+  .search-container button {
+    border-radius: 5px;
+    color: #e0e1dd;
+    font-weight: bold;
+  }
+
+  label {
+    font-weight: bold;
+    margin-right: 4px;
+  }
+
+  select {
+    border-radius: 5px;
+    padding: 4px 8px;
+    background-color: #778da9;
+    border: none;
+    color: #e0e1dd;
+    font-weight: bold;
+    margin-right: 16px;
+  }
+`;
 
 export default TodosViewForm;

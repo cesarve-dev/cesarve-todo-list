@@ -3,6 +3,7 @@ import './App.css';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
 import TodosViewForm from './features/TodosViewForm.jsx';
+import styles from './App.module.css';
 
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -24,6 +25,7 @@ function App() {
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
+  // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const encodeUrl = useCallback(() => {
     let searchQuery = '';
     let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
@@ -44,8 +46,9 @@ function App() {
       try {
         const resp = await fetch(encodeUrl(), options);
         if (!resp.ok) {
-          throw new Error(resp.message);
+          throw new Error(`Request failed: ${resp.status}`);
         }
+
         const data = await resp.json();
         const records = data.records.map((record) => {
           const todo = {
@@ -205,7 +208,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>My Todos</h1>
       <TodoForm onAddTodo={addTodo} isSaving={isSaving} />
       <TodoList
@@ -215,13 +218,13 @@ function App() {
         isLoading={isLoading}
       />
       {errorMessage !== '' && (
-        <>
+        <div className={styles.errorMessage}>
           <hr />
           <p>{errorMessage}</p>
           <button type="button" onClick={() => setErrorMessage('')}>
             dismiss
           </button>
-        </>
+        </div>
       )}
       <hr />
       <TodosViewForm
