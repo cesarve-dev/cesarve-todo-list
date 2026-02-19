@@ -14,14 +14,6 @@ const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${impor
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
 function App() {
-  // const [todoList, setTodoList] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState('');
-  // const [isSaving, setIsSaving] = useState(false);
-  // const [sortField, setSortField] = useState('createdTime');
-  // const [sortDirection, setSortDirection] = useState('desc');
-  // const [queryString, setQueryString] = useState('');
-  // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
   const sortDirection = todoState.sortDirection;
   const sortField = todoState.sortField;
@@ -50,7 +42,6 @@ function App() {
 
   useEffect(() => {
     const fetchTodos = async () => {
-      // setIsLoading(true);
       dispatch({ type: todoActions.fetchTodos });
       const options = {
         method: 'GET',
@@ -62,26 +53,11 @@ function App() {
         if (!resp.ok) {
           throw new Error(`Request failed: ${resp.status}`);
         }
-
         const data = await resp.json();
-        // const records = data.records.map((record) => {
-        //   const todo = {
-        //     title: record.fields.title,
-        //     id: record.id,
-        //     isCompleted: record.fields.isCompleted,
-        //   };
-        //   if (!todo.isCompleted) {
-        //     todo.isCompleted = false;
-        //   }
-        // //   return todo;
-        // });
-        // setTodoList([...records]);
-        // console.log(data.records);
         dispatch({ type: todoActions.loadTodos, records: data.records });
       } catch (error) {
         dispatch({ type: todoActions.setLoadError, error });
       } finally {
-        // setIsLoading(false);
         dispatch({ type: todoActions.endRequest });
       }
     };
@@ -111,28 +87,16 @@ function App() {
       body: JSON.stringify(payload),
     };
     try {
-      // setIsSaving(true);
       dispatch({ type: todoActions.startRequest });
       const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) {
         throw new Error(resp.status);
       }
-      // const completedTodo = todoList.map((todo) =>
-      //   todo.id === id ? { ...todo, isCompleted: true } : todo
-      // );
-      // setTodoList(completedTodo);
       dispatch({ type: todoActions.completeTodo, id });
     } catch (error) {
-      // setErrorMessage(`${error.message}. Reverting todo...`);
       dispatch({ type: todoActions.setLoadError, error });
-      // const revertedTodos = todoList.map((todo) =>
-      //   todo.id === id ? originalTodo : todo
-      // );
-
-      // setTodoList(revertedTodos);
       dispatch({ type: todoActions.revertTodo, originalTodo });
     } finally {
-      // setIsSaving(false);
       dispatch({ type: todoActions.endRequest });
     }
   };
@@ -158,7 +122,6 @@ function App() {
     };
 
     try {
-      // setIsSaving(true);
       dispatch({ type: todoActions.startRequest });
       const resp = await fetch(encodeUrl(), options);
       if (!resp.ok) {
@@ -166,22 +129,10 @@ function App() {
         throw new Error(resp.status);
       }
       const { records } = await resp.json();
-      // const savedTodo = {
-      //   id: records[0].id,
-      //   title: records[0].fields.title,
-      //   isCompleted: records[0].fields.isCompleted,
-      // };
-
-      // if (!records[0].fields.isCompleted) {
-      //   savedTodo.isCompleted = false;
-      // }
-      // setTodoList([...todoList, savedTodo]);
       dispatch({ type: todoActions.addTodo, records });
     } catch (error) {
-      // setErrorMessage(error.message);
       dispatch({ type: todoActions.setLoadError, error });
     } finally {
-      // setIsSaving(false);
       dispatch({ type: todoActions.endRequest });
     }
   };
@@ -214,23 +165,11 @@ function App() {
       if (!resp.ok) {
         throw new Error(resp.status);
       }
-      // const editedTodos = todoList.map((todo) =>
-      //   todo.id === editedTodo.id ? editedTodo : todo
-      // );
-      // setTodoList(editedTodos);
       dispatch({ type: todoActions.updateTodo, editedTodo });
     } catch (error) {
-      // console.log(error.message);
-      // setErrorMessage(`${error.message}. Reverting todo...`);
       dispatch({ type: todoActions.setLoadError, error });
-      //reverse to original todolist
-      // const revertedTodos = todoList.map((todo) => {
-      //   todo.id === editedTodo.id ? originalTodo : todo;
-      // });
-      // setTodoList(revertedTodos);
       dispatch({ type: todoActions.revertTodo, originalTodo });
     } finally {
-      // setIsSaving(false);
       dispatch({ type: todoActions.endRequest });
     }
   };
