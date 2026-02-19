@@ -18,11 +18,20 @@ function App() {
   // const [isLoading, setIsLoading] = useState(false);
   // const [errorMessage, setErrorMessage] = useState('');
   // const [isSaving, setIsSaving] = useState(false);
-  const [sortField, setSortField] = useState('createdTime');
-  const [sortDirection, setSortDirection] = useState('desc');
+  // const [sortField, setSortField] = useState('createdTime');
+  // const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
   // const badUrl = 'https://api.airtable.com/v0/…/does-not-exist';
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
+  const sortDirection = todoState.sortDirection;
+  const sortField = todoState.sortField;
+  const setSortDirection = function (direction) {
+    dispatch({ type: todoActions.setSortDirection, direction });
+  };
+
+  const setSortField = function (sortField) {
+    dispatch({ type: todoActions.setSortField, sortField });
+  };
 
   const encodeUrl = useCallback(() => {
     let searchQuery = '';

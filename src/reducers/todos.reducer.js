@@ -15,6 +15,8 @@ const actions = {
   revertTodo: 'revertTodo',
   //action on Dismiss Error button
   clearError: 'clearError',
+  setSortDirection: 'setSortDirection',
+  setSortField: 'setSortField',
 };
 
 const initialState = {
@@ -22,6 +24,8 @@ const initialState = {
   isLoading: false,
   isSaving: false,
   errorMessage: '',
+  sortDirection: 'desc',
+  sortField: 'createdTime',
 };
 
 function reducer(state = initialState, action) {
@@ -110,11 +114,20 @@ function reducer(state = initialState, action) {
         todoList: [...completedTodo],
       };
     }
-
     case actions.clearError:
       return {
         ...state,
         errorMessage: '',
+      };
+    case actions.setSortDirection:
+      return {
+        ...state,
+        sortDirection: action.direction,
+      };
+    case actions.setSortField:
+      return {
+        ...state,
+        sortField: action.sortField,
       };
   }
 }
