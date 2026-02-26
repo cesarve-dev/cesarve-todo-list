@@ -89,6 +89,7 @@ const StyledTodosView = styled.div`
     border-radius: 5px;
     color: #e0e1dd;
     font-weight: bold;
+    background-color: #e08d79;
   }
 
   label {

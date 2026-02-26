@@ -41,10 +41,12 @@ const StyledForm = styled.form`
     color: #e0e1dd;
     font-weight: bold;
     border-radius: 5px;
+    background-color: hsl(12, 62%, 68%);
   }
   button:disabled {
     font-style: italic;
     font-weight: 300;
+    background-color: hsl(12, 35%, 68%);
   }
 `;
 export default TodoForm;
