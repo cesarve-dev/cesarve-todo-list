@@ -12,3 +12,26 @@
   align-items: center;
   margin-bottom: 10px;
 }
+
+.paginationControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paginationControls button {
+  border-radius: 5px;
+  background-color: #e08d79;
+  color: #fff;
+}
+
+.paginationControls button:disabled {
+  background-color: hsl(80, 2%, 70%);
+  color: hsl(0, 0%, 50%);
+  cursor: not-allowed;
+}
+
+.paginationControls span {
+  margin: 0 8px;
+  color: hsl(80, 2%, 75%);
+}

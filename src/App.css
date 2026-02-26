@@ -33,3 +33,11 @@ button {
   color: #778da9;
   border: none;
 }
+
+a {
+  text-decoration: none;
+}
+
+.repoLink {
+  color: #e08d79;
+}
