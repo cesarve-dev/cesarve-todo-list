@@ -95,7 +95,7 @@ function App() {
       dispatch({ type: todoActions.completeTodo, id });
     } catch (error) {
       dispatch({ type: todoActions.setLoadError, error });
-      dispatch({ type: todoActions.revertTodo, originalTodo });
+      dispatch({ type: todoActions.revertTodo, id, originalTodo });
     } finally {
       dispatch({ type: todoActions.endRequest });
     }
@@ -168,7 +168,11 @@ function App() {
       dispatch({ type: todoActions.updateTodo, editedTodo });
     } catch (error) {
       dispatch({ type: todoActions.setLoadError, error });
-      dispatch({ type: todoActions.revertTodo, originalTodo });
+      dispatch({
+        type: todoActions.revertTodo,
+        id: editedTodo.id,
+        originalTodo,
+      });
     } finally {
       dispatch({ type: todoActions.endRequest });
     }

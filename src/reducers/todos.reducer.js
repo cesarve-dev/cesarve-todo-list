@@ -42,11 +42,8 @@ function reducer(state = initialState, action) {
         const todo = {
           title: record.fields.title,
           id: record.id,
-          isCompleted: record.fields.isCompleted,
+          isCompleted: record.fields.isCompleted ?? false,
         };
-        if (!todo.isCompleted) {
-          todo.isCompleted = false;
-        }
         return todo;
       });
       return {
@@ -89,12 +86,9 @@ function reducer(state = initialState, action) {
       };
     case actions.revertTodo: {
       const revertedTodos = state.todoList.map((todo) =>
-        todo.id === action.editedTodo.id ? action.originalTodo : todo
+        todo.id === action.id ? action.originalTodo : todo
       );
       const updatedState = { ...state, todoList: revertedTodos };
-      if (action.error) {
-        updatedState.errorMessage = action.errorMessage;
-      }
       return updatedState;
     }
     case actions.updateTodo: {
@@ -102,9 +96,6 @@ function reducer(state = initialState, action) {
         todo.id === action.editedTodo.id ? action.editedTodo : todo
       );
       const updatedState = { ...state, todoList: editedTodos };
-      if (action.error) {
-        updatedState.errorMessage = action.errorMessage;
-      }
       return updatedState;
     }
     case actions.completeTodo: {
