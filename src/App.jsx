@@ -1,8 +1,13 @@
-import { useEffect, useCallback, useReducer } from 'react';
+import { useEffect, useCallback, useReducer, useState } from 'react';
+import { useLocation, Routes, Route } from 'react-router';
 import './App.css';
-import TodoList from './features/TodoList/TodoList.jsx';
-import TodoForm from './features/TodoForm.jsx';
-import TodosViewForm from './features/TodosViewForm.jsx';
+// import TodoList from './features/TodoList/TodoList.jsx';
+// import TodoForm from './features/TodoForm.jsx';
+// import TodosViewForm from './features/TodosViewForm.jsx';
+import TodosPage from './pages/TodosPage.jsx';
+import About from './pages/About.jsx';
+import NotFound from './pages/NotFound.jsx';
+import Header from './shared/Header.jsx';
 import styles from './App.module.css';
 import {
   reducer as todosReducer,
@@ -18,6 +23,8 @@ function App() {
   const sortDirection = todoState.sortDirection;
   const sortField = todoState.sortField;
   const queryString = todoState.queryString;
+  const location = useLocation();
+  const [title, setTitle] = useState('');
 
   const setSortDirection = function (direction) {
     dispatch({ type: todoActions.setSortDirection, direction });
@@ -31,6 +38,10 @@ function App() {
     dispatch({ type: todoActions.setQueryString, queryString });
   };
 
+  const clearError = () => {
+    dispatch({ type: todoActions.clearError });
+  };
+
   const encodeUrl = useCallback(() => {
     let searchQuery = '';
     let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
@@ -39,6 +50,16 @@ function App() {
     }
     return encodeURI(`${url}?${sortQuery}${searchQuery}`);
   }, [sortField, sortDirection, queryString]);
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setTitle('Todo List');
+    } else if (location.pathname === '/about') {
+      setTitle('About');
+    } else {
+      setTitle('Not Found');
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -180,8 +201,39 @@ function App() {
 
   return (
     <div className={styles.container}>
-      <h1>My Todos</h1>
-      <TodoForm onAddTodo={addTodo} isSaving={todoState.isSaving} />
+      <Header title={title} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <TodosPage
+              onAddTodo={addTodo}
+              todoState={todoState}
+              onCompleteTodo={completeTodo}
+              onUpdateTodo={updateTodo}
+              isSaving={todoState.isSaving}
+              isLoading={todoState.isLoading}
+              sortDirection={sortDirection}
+              sortField={sortField}
+              setSortDirection={setSortDirection}
+              setSortField={setSortField}
+              queryString={queryString}
+              setQueryString={setQueryString}
+              onClearError={clearError}
+            />
+          }
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+
+{
+  /* <TodoForm onAddTodo={addTodo} isSaving={todoState.isSaving} />
       <TodoList
         todoList={todoState.todoList}
         onCompleteTodo={completeTodo}
@@ -208,9 +260,5 @@ function App() {
         setSortField={setSortField}
         queryString={queryString}
         setQueryString={setQueryString}
-      />
-    </div>
-  );
+      /> */
 }
-
-export default App;

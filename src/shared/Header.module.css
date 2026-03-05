@@ -1,0 +1,26 @@
+.headerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active {
+  color: #e0e1dd;
+  text-decoration: none;
+}
+
+.inactive {
+  color: #abafab;
+  text-decoration: none;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navbar a {
+  padding: 8px;
+}
